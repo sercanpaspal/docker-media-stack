@@ -1,0 +1,13 @@
+.DS_Store
+
+config/jellyfin/*
+config/prowlarr/*
+config/radarr/*
+config/sonarr/*
+config/transmission/*
+
+media/movies/*
+media/series/*
+media/torrents/*
+
+!.gitignore
