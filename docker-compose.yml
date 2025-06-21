@@ -25,7 +25,8 @@ services:
       - TZ=$TZ
     volumes:
       - $CONFIG_DIR/radarr:/config
-      - $MEDIA_DIR:/media
+      - $MEDIA_DIR:/media:/media
+      - $MEDIA_DIR/downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -38,24 +39,10 @@ services:
       - TZ=$TZ
     volumes:
       - $CONFIG_DIR/sonarr:/config
-      - $MEDIA_DIR:/media
+      - $MEDIA_DIR:/media:/media
+      - $MEDIA_DIR/downloads:/downloads
     ports:
       - 8989:8989  
-    restart: unless-stopped
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
-    environment:
-      - PUID=$PUID
-      - PGID=$PGID
-      - TZ=$TZ
-    volumes:
-      - $CONFIG_DIR/transmission:/config
-      - $MEDIA_DIR/torrents:/downloads/complete
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
     restart: unless-stopped
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
@@ -70,4 +57,30 @@ services:
       - $MEDIA_DIR/movies:/data/movies
     ports:
       - 8096:8096
+    restart: unless-stopped
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $CONFIG_DIR/qbittorrent:/config
+      - $MEDIA_DIR/downloads:/downloads
+      - $MEDIA_DIR/media:/media
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $CONFIG_DIR/flaresolverr:/config
+    ports:
+      - 8191:8191
     restart: unless-stopped

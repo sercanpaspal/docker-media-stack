@@ -4,10 +4,11 @@ config/jellyfin/*
 config/prowlarr/*
 config/radarr/*
 config/sonarr/*
-config/transmission/*
+config/qbittorrent/*
+config/flaresolverr/*
 
 media/movies/*
 media/series/*
-media/torrents/*
+media/downloads/*
 
 !.gitignore
